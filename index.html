@@ -10,15 +10,16 @@
             padding: 0;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             height: 100vh;
             background-color: #f0f0f0;
+            overflow: hidden;
         }
         #pdf-container {
             width: 100%;
-            max-width: 1000px; /* Uprav podľa potreby */
+            max-width: 1000px; /* Maximálna šírka */
             height: 100%;
-            overflow: hidden;
+            overflow-y: scroll; /* Povolenie vertikálneho posúvania */
         }
         canvas {
             width: 100% !important;
@@ -27,33 +28,42 @@
     </style>
 </head>
 <body>
-    <div id="pdf-container">
-        <canvas id="pdf-canvas"></canvas>
-    </div>
+    <div id="pdf-container"></div>
 
     <!-- Načítanie PDF.js cez CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
 
     <script>
         const url = 'index.pdf';  // Cesta k tvojmu PDF súboru
+        const container = document.getElementById('pdf-container');
 
         // Načítanie PDF dokumentu
         pdfjsLib.getDocument(url).promise.then(function(pdfDoc_) {
             const pdfDoc = pdfDoc_;
-            const canvas = document.getElementById('pdf-canvas');
-            const context = canvas.getContext('2d');
+            const totalPages = pdfDoc.numPages;
 
-            // Zobrazenie prvej stránky PDF
-            pdfDoc.getPage(1).then(function(page) {
-                const viewport = page.getViewport({ scale: 1 });
-                canvas.height = viewport.height;
-                canvas.width = viewport.width;
+            // Funkcia na vykreslenie každej stránky
+            function renderPage(pageNum) {
+                pdfDoc.getPage(pageNum).then(function(page) {
+                    const canvas = document.createElement('canvas');
+                    container.appendChild(canvas);
+                    const context = canvas.getContext('2d');
 
-                page.render({
-                    canvasContext: context,
-                    viewport: viewport
+                    const viewport = page.getViewport({ scale: 1 });
+                    canvas.height = viewport.height;
+                    canvas.width = viewport.width;
+
+                    page.render({
+                        canvasContext: context,
+                        viewport: viewport
+                    });
                 });
-            });
+            }
+
+            // Načítanie všetkých stránok
+            for (let pageNum = 1; pageNum <= totalPages; pageNum++) {
+                renderPage(pageNum);
+            }
         });
     </script>
 </body>
