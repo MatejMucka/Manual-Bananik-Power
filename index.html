@@ -1,59 +1,37 @@
 <!DOCTYPE html>
-<html>
+<html lang="sk">
 <head>
-    <title>Návod</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zobraziť PDF</title>
     <style>
-        /* Nastavenie pre celú obrazovku */
-        html, body {
+        /* Nastavenie pre zobrazenie PDF na celej obrazovke */
+        body, html {
             margin: 0;
             padding: 0;
-            width: 100%;
             height: 100%;
-            overflow: hidden;
+            width: 100%;
+            overflow: hidden; /* Zabrániť rolovaniu */
         }
 
-        #pdf-container {
+        iframe {
             width: 100%;
             height: 100%;
+            border: none;
+        }
+
+        /* Zabezpečiť, že iframe sa prispôsobí rôznym veľkostiam obrazovky */
+        @media screen and (max-width: 768px) {
+            iframe {
+                height: 90vh; /* Na mobiloch prispôsobíme výšku */
+            }
         }
     </style>
-    <!-- Načítanie knižnice PDF.js z CDN -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 </head>
 <body>
-    <div id="pdf-container"></div>
-
-    <script>
-        // Nastavenie pre načítanie a zobrazenie PDF
-        var url = 'index.pdf';  // cesta k tvojmu PDF
-
-        // Iniciovanie PDF.js
-        pdfjsLib.getDocument(url).promise.then(function(pdfDoc_) {
-            pdfDoc = pdfDoc_;
-            renderPage(1);  // Zobrazí 1. stránku PDF
-
-        }, function(error) {
-            console.error(error);
-        });
-
-        function renderPage(pageNum) {
-            pdfDoc.getPage(pageNum).then(function(page) {
-                var scale = 1.5;
-                var viewport = page.getViewport({ scale: scale });
-
-                var canvas = document.createElement('canvas');
-                var context = canvas.getContext('2d');
-                canvas.width = viewport.width;
-                canvas.height = viewport.height;
-
-                page.render({
-                    canvasContext: context,
-                    viewport: viewport
-                });
-
-                document.getElementById('pdf-container').appendChild(canvas);
-            });
-        }
-    </script>
+    <!-- Zobrazenie PDF v iframe -->
+    <iframe src="index.pdf" width="100%" height="100%">
+        Tento prehliadač nepodporuje PDF.
+    </iframe>
 </body>
 </html>
