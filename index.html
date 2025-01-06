@@ -3,35 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zobraziť PDF</title>
+    <title>PDF zobrazenie</title>
     <style>
-        /* Nastavenie pre zobrazenie PDF na celej obrazovke */
+        /* Zabezpečí, že PDF sa prispôsobí stránke */
         body, html {
             margin: 0;
             padding: 0;
             height: 100%;
             width: 100%;
-            overflow: hidden; /* Zabrániť rolovaniu */
         }
 
-        iframe {
+        /* Nastavenie embed pre zobrazenie PDF na celej obrazovke */
+        embed {
             width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        /* Zabezpečiť, že iframe sa prispôsobí rôznym veľkostiam obrazovky */
-        @media screen and (max-width: 768px) {
-            iframe {
-                height: 90vh; /* Na mobiloch prispôsobíme výšku */
-            }
+            height: 100vh;
         }
     </style>
 </head>
 <body>
-    <!-- Zobrazenie PDF v iframe -->
-    <iframe src="index.pdf" width="100%" height="100%">
-        Tento prehliadač nepodporuje PDF.
-    </iframe>
+    <!-- Zobrazenie PDF priamo na stránke pomocou embed -->
+    <embed src="index.pdf" type="application/pdf" width="100%" height="100%">
 </body>
 </html>
