@@ -10,18 +10,24 @@
             width: 100%;
             height: 100%;
             overflow: hidden; /* Zabráni scrollovaniu */
-            background-color: #ffffff; /* Nastaví biele pozadie */
         }
 
-        iframe {
-            border: none;
+        object, iframe {
             width: 100%;
             height: 100%;
+            border: none;
         }
     </style>
 </head>
 <body>
-    <!-- Vloženie PDF -->
-    <iframe src="index.pdf"></iframe>
+    <!-- Použitie <object> na zobrazenie PDF -->
+    <object data="index.pdf#page=1" type="application/pdf" width="100%" height="100%">
+        <iframe src="index.pdf#page=1" width="100%" height="100%" style="border: none;">
+            <p>
+                Your browser does not support PDFs.
+                <a href="index.pdf">Download the PDF</a>.
+            </p>
+        </iframe>
+    </object>
 </body>
 </html>
