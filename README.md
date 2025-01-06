@@ -1,1 +1,0 @@
-# Manual-Bananik-Power
